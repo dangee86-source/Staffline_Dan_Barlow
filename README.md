@@ -1,6 +1,15 @@
 # Amazon Playwright Tests
 
+[![Playwright Tests](https://github.com/dangee86-source/Staffline_Dan_Barlow/actions/workflows/playwright.yml/badge.svg)](https://github.com/dangee86-source/Staffline_Dan_Barlow/actions/workflows/playwright.yml)
+
 Automated test suite for [amazon.co.uk](https://www.amazon.co.uk) using **Playwright** and **TypeScript** with the Page Object Model pattern.
+
+**Repository:** [github.com/dangee86-source/Staffline_Dan_Barlow](https://github.com/dangee86-source/Staffline_Dan_Barlow)
+
+```bash
+git clone https://github.com/dangee86-source/Staffline_Dan_Barlow.git
+cd Staffline_Dan_Barlow
+```
 
 ---
 
@@ -109,3 +118,9 @@ npx playwright show-report
 ## Configuration
 
 Edit [playwright.config.ts](playwright.config.ts) to change browser, viewport, or timeout settings.
+
+---
+
+## Continuous Integration
+
+Tests run automatically on GitHub Actions ([.github/workflows/playwright.yml](.github/workflows/playwright.yml)) on every push and pull request to `main`. The HTML report is uploaded as a workflow artifact.
