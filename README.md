@@ -31,7 +31,7 @@ cd Staffline_Dan_Barlow
 | User searches for iPhone 17 Pro Max | Search completes successfully |
 | User filters by top rated and verifies the filter is applied | URL contains `p_72` (Amazon's star rating filter param) |
 | User selects the first result and verifies the product page title | Product page title contains "iPhone 17 Pro Max" |
-| User filters by top rated and selects the first silver iPhone | Adds the highest-rated Silver iPhone to basket with protection plan |
+| User selects the silver colour and adds the product to the basket | Adds the Silver iPhone to basket with protection plan |
 | User navigates to the basket | URL contains `/cart` |
 | User verifies the basket contains the correct product | Basket shows correct name, colour (Silver), and quantity (1) |
 | User verifies the basket price, item count and subtotal | Basket price matches product page, header shows 2 items, subtotal is visible |
