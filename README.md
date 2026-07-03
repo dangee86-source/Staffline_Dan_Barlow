@@ -102,6 +102,31 @@ npx playwright show-report
 
 ---
 
+## BDD (Cucumber) Suite
+
+The same coverage is also implemented as Gherkin/Cucumber scenarios in [features/amazon-search.feature](features/amazon-search.feature), with step definitions under `src/` that reuse the exact same Page Object classes as the Playwright specs above (`pages/*.ts`) — one set of page objects, two different test runners.
+
+```
+src/
+├── support/
+│   ├── world.ts     # Custom Cucumber World — holds the Playwright browser/page and data shared between steps
+│   └── hooks.ts     # Before/After hooks — launch/close Chromium per scenario, attach a screenshot on failure
+└── steps/
+    └── amazon.steps.ts   # Step definitions for features/amazon-search.feature
+```
+
+```bash
+# Run the BDD suite
+npm run test:bdd
+
+# Run and generate an HTML report in reports/
+npm run test:bdd:report
+```
+
+Both scripts include `--retry 1`, matching the retry used in `playwright.config.ts` locally — real end-to-end tests against a live third-party site occasionally hit a one-off network/render hiccup unrelated to the code under test, so a single automatic retry filters that noise out.
+
+---
+
 ## Key Design Decisions
 
 | Decision | Reason |

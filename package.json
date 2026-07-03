@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:bdd": "cucumber-js",
-    "test:bdd:report": "cucumber-js --format html:reports/cucumber-report.html",
+    "test:bdd": "cucumber-js --retry 1",
+    "test:bdd:report": "cucumber-js --retry 1 --format html:reports/cucumber-report.html",
     "test:playwright": "playwright test"
   },
   "keywords": [],

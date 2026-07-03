@@ -41,14 +41,25 @@ export class AmazonProductPage extends BasePage {
     return (await this.pagePrice().textContent() ?? '').trim().replace(/[^0-9.,]/g, '');
   }
 
-  // Selects the given colour and adds the item to the basket, including protection plan.
-  // Chained together because on Amazon's real site, clicking "Add to basket" always
-  // triggers the protection plan popup for this product — treating it as one flow
-  // avoids every calling test having to know about (and handle) that popup itself.
-  async selectColourAndAddToBasket(colour: string) {
+  // Selects a colour variant on the product page.
+  async selectColour(colour: string) {
     await this.colourOption(colour).click();
+  }
+
+  // Adds the currently selected product to the basket and accepts the protection
+  // plan popup that Amazon shows immediately afterwards for this product.
+  async addToBasketWithProtectionPlan() {
     await this.addToBasketButton().click();
     await this.protectionPlanCheckbox().click();
     await this.addProtectionButton().click();
+  }
+
+  // Selects the given colour and adds the item to the basket, including protection plan.
+  // Split into `selectColour` + `addToBasketWithProtectionPlan` above so the BDD step
+  // definitions (src/steps/amazon.steps.ts) can drive the same two actions as two
+  // separate Gherkin steps, matching how the feature file phrases the user journey.
+  async selectColourAndAddToBasket(colour: string) {
+    await this.selectColour(colour);
+    await this.addToBasketWithProtectionPlan();
   }
 }
