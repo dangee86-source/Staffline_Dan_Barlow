@@ -6,8 +6,11 @@ export interface IProduct {
   colour?: string;
 }
 
-// Reserved for a planned "compare products" scenario (see the second scenario in
-// features/amazon-search.feature) that compares iPhone 17 Pro Max vs Pro spec-by-spec.
+// Reserved for a planned "compare products" scenario (comparing iPhone 17 Pro Max
+// vs Pro spec-by-spec) that was never built — the comparison-table scraping proved
+// too fragile to validate reliably, so features/amazon-search.feature's second
+// scenario was simplified to the filter/select-colour/basket flow instead (see
+// tests/amazon/scenario2.spec.ts for the equivalent, implemented version).
 // Not yet consumed by any page object or test.
 export interface IProductComparisonRow {
   feature: string;
