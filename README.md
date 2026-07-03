@@ -45,8 +45,6 @@ Staffline/
 ├── framework/
 │   ├── constants/
 │   │   └── urls.ts                    # Amazon base URL constant
-│   ├── fixtures/
-│   │   └── amazonFixture.ts           # Shared fixture — navigates to Amazon and handles cookie/interstitial before each test
 │   └── types/
 │       └── product.ts                 # IProduct interface (name, colour)
 ├── pages/
@@ -137,6 +135,7 @@ Both scripts include `--retry 1`, matching the retry used in `playwright.config.
 | `allTextContents()` for counting | Faster than looping with individual `textContent()` calls which can timeout per item |
 | `IProduct` interface with optional `colour?` | Satisfies both scenarios — Scenario 1 doesn't need colour, Scenario 2 does |
 | `try/catch` for cookie banner and "Continue shopping" | Both appear intermittently and should not fail the test if absent |
+| One shared browser page per spec file (`test.beforeAll`) instead of a fresh page per test | Each file's tests are one continuous journey, not independent cases — replaying the whole journey per test caused a flaky worker crash from cumulative navigation load against the live site; a single shared page removed it |
 
 ---
 
