@@ -10,21 +10,9 @@ import { URLS } from '../../framework/constants/urls';
 // Test data
 const product: IProduct = { name: 'iPhone 17 Pro Max', colour: 'silver' };
 
-// Run sequentially, not in parallel — see scenario1.spec.ts for reasoning
-// (Amazon throttles/blocks bursts of concurrent requests from one IP).
+// Tests run sequentially and share one browser page for the whole file.
 test.describe.configure({ mode: 'serial' });
 
-// These 8 tests share ONE browser page for the whole file instead of each test
-// independently repeating search -> filter -> select colour -> add to basket from
-// scratch. This models what the tests actually are — one continuous user journey —
-// and avoids ~6 redundant full-page navigations to a live, heavy third-party site
-// per run. Doing that repeatedly was the root cause of an intermittent flake where
-// a different test would fail instantly (0ms, no assertion error) partway through
-// a full run: the repeated real navigations built up memory/network load in a
-// single long-lived browser session until something gave out. Isolating each test
-// with independent state is normally preferred, but for an expensive dependent
-// journey like this one, Playwright's own docs recommend exactly this
-// shared-page-in-serial-mode pattern.
 let page: Page;
 let homePage: AmazonHomePage;
 let resultsPage: AmazonSearchResultsPage;

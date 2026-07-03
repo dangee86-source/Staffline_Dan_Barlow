@@ -1,9 +1,7 @@
 import { Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-// Page object for an individual Amazon product ("detail") page: reading title/price
-// and driving the colour-selection + add-to-basket flow, including the protection
-// plan upsell popup that appears after clicking "Add to basket".
+// Page object for an Amazon product detail page.
 export class AmazonProductPage extends BasePage {
   constructor(page: Page) {
     super(page);
@@ -34,30 +32,24 @@ export class AmazonProductPage extends BasePage {
     return (await this.pageTitle().textContent() ?? '').trim();
   }
 
-  // Returns the price as a plain string e.g. "1,199".
-  // Strips everything except digits/./, so currency symbols and stray whitespace
-  // from Amazon's markup don't break later string comparisons against the basket price.
+  // Returns the price as a plain string e.g. "1,199"
   async getPrice(): Promise<string> {
     return (await this.pagePrice().textContent() ?? '').trim().replace(/[^0-9.,]/g, '');
   }
 
-  // Selects a colour variant on the product page.
+  // Selects a colour variant on the product page
   async selectColour(colour: string) {
     await this.colourOption(colour).click();
   }
 
-  // Adds the currently selected product to the basket and accepts the protection
-  // plan popup that Amazon shows immediately afterwards for this product.
+  // Adds the product to the basket and accepts the protection plan popup
   async addToBasketWithProtectionPlan() {
     await this.addToBasketButton().click();
     await this.protectionPlanCheckbox().click();
     await this.addProtectionButton().click();
   }
 
-  // Selects the given colour and adds the item to the basket, including protection plan.
-  // Split into `selectColour` + `addToBasketWithProtectionPlan` above so the BDD step
-  // definitions (src/steps/amazon.steps.ts) can drive the same two actions as two
-  // separate Gherkin steps, matching how the feature file phrases the user journey.
+  // Selects the given colour and adds the item to the basket, including protection plan
   async selectColourAndAddToBasket(colour: string) {
     await this.selectColour(colour);
     await this.addToBasketWithProtectionPlan();

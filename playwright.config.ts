@@ -13,10 +13,7 @@
  */
 export default defineConfig({
   testDir: './tests',
-  /* Run test FILES in parallel. Tests *within* each Amazon spec file still run
-     serially because of `test.describe.configure({ mode: 'serial' })` in those
-     files — Amazon throttles bursts of concurrent requests from one IP, so
-     serial mode is used at the file level to avoid false failures. */
+  /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -33,9 +30,6 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    // Runs with a visible browser locally for easier debugging while writing tests.
-    // CI (see .github/workflows/playwright.yml) still runs fine headed-off-screen
-    // on ubuntu-latest, but set this to `true` if running headless is preferred.
     headless: false,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

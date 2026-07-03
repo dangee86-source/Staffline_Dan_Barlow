@@ -1,40 +1,36 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-// Page object for the Amazon basket/cart page. All verification methods here scope
-// their checks to `iPhoneBasketItem()` specifically, so assertions target the phone
-// row and aren't accidentally satisfied by the separate protection-plan line item.
+// Page object for the Amazon basket/cart page.
 export class AmazonBasketPage extends BasePage {
   constructor(page: Page) {
     super(page);
   }
 
-  // Finds the basket item row that contains the iPhone — ignores the protection plan row
+  // The basket item row containing the iPhone
   iPhoneBasketItem = () =>
     this.page.locator('.sc-list-item').filter({ hasText: /iPhone/i }).first();
 
   // The product title link within the iPhone basket row
   productTitle = () => this.iPhoneBasketItem().locator('a.sc-product-title');
 
-
-  // Waits for the basket page to fully load
+  // Waits for the basket page to finish loading
   async waitForBasket() {
     await this.page.waitForURL(/\/cart/i, { waitUntil: 'domcontentloaded' });
     await this.iPhoneBasketItem().waitFor({ state: 'visible' });
   }
 
-  // Checks the basket contains the expected product name
+  // Verifies the basket contains the expected product name
   async verifyProductName(name: string) {
     await expect(this.productTitle()).toContainText(name);
   }
 
-  // Checks the basket item contains "Colour: Silver" — uses [\s\S]* to match across line breaks
-  // because Amazon puts the label "Colour:" and value "Silver" in separate HTML spans
+  // Verifies the basket item shows the expected colour
   async verifyColour(colour: string) {
     await expect(this.iPhoneBasketItem()).toContainText(new RegExp(`Colour:[\\s\\S]*${colour}`, 'i'));
   }
 
-  // Checks the basket item contains "Qty: 1" anywhere in its text
+  // Verifies the basket item quantity is 1
   async verifyQuantity() {
     await expect(this.iPhoneBasketItem()).toContainText('Qty: 1');
   }
@@ -50,7 +46,7 @@ export class AmazonBasketPage extends BasePage {
     await expect(this.headerItemCount()).toContainText(String(count));
   }
 
-  // Verifies the iPhone basket row contains the price from the product page
+  // Verifies the iPhone basket row shows the given price
   async verifyItemPrice(price: string) {
     await expect(this.iPhoneBasketItem()).toContainText(price);
   }

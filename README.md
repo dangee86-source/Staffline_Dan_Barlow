@@ -121,21 +121,7 @@ npm run test:bdd
 npm run test:bdd:report
 ```
 
-Both scripts include `--retry 1`, matching the retry used in `playwright.config.ts` locally — real end-to-end tests against a live third-party site occasionally hit a one-off network/render hiccup unrelated to the code under test, so a single automatic retry filters that noise out.
-
----
-
-## Key Design Decisions
-
-| Decision | Reason |
-|---|---|
-| `test.describe.configure({ mode: 'serial' })` | Amazon detects parallel requests from the same IP and throttles/blocks them |
-| `waitForURL(/\/s\?k=/)` instead of `networkidle` | Amazon constantly makes background ad/analytics requests so `networkidle` never fires |
-| `a[href*="/dp/"]` inside result items to click products | Skips the carousel banner at the top which has no standard product link |
-| `allTextContents()` for counting | Faster than looping with individual `textContent()` calls which can timeout per item |
-| `IProduct` interface with optional `colour?` | Satisfies both scenarios — Scenario 1 doesn't need colour, Scenario 2 does |
-| `try/catch` for cookie banner and "Continue shopping" | Both appear intermittently and should not fail the test if absent |
-| One shared browser page per spec file (`test.beforeAll`) instead of a fresh page per test | Each file's tests are one continuous journey, not independent cases — replaying the whole journey per test caused a flaky worker crash from cumulative navigation load against the live site; a single shared page removed it |
+Both scripts include `--retry 1` to absorb occasional network hiccups against the live site.
 
 ---
 

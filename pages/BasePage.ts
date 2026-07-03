@@ -1,8 +1,7 @@
 import { Page } from '@playwright/test';
 
-// Base class for the Page Object Model (POM). Holds locators and behaviour that are
-// shared across multiple pages (cookie banner, search box) so each page-specific
-// class (AmazonHomePage, AmazonProductPage, etc.) only defines what's unique to it.
+// Base class shared by all page objects. Holds locators/behaviour common to
+// more than one page (cookie banner, header search box).
 export class BasePage {
   constructor(public readonly page: Page) {}
 
@@ -10,10 +9,8 @@ export class BasePage {
   searchBox = () => this.page.locator('#twotabsearchtextbox');
   searchButton = () => this.page.locator('#nav-search-submit-button');
 
-  // Dismisses Amazon's cookie consent banner if it appears.
-  // Uses try/catch + a short timeout rather than a hard `expect` because the banner
-  // is intermittent (e.g. won't reappear once a cookie is already set) and its
-  // absence is not a test failure.
+  // Dismisses the cookie consent banner if it is shown. Optional step — the
+  // banner does not always appear.
   async acceptCookiesIfPresent() {
     try {
       await this.cookieAcceptButton().waitFor({ state: 'visible', timeout: 5000 });
@@ -23,8 +20,8 @@ export class BasePage {
     }
   }
 
-  // Dismisses the "Continue shopping" interstitial (a bot-check-style page Amazon
-  // occasionally shows) if it appears. Same intermittent-by-design reasoning as above.
+  // Dismisses the "Continue shopping" interstitial if it is shown. Optional
+  // step — the interstitial does not always appear.
   async handleContinueShoppingIfPresent() {
     try {
       const btn = this.page.getByRole('button', { name: 'Continue shopping' });

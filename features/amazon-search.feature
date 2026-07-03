@@ -1,6 +1,4 @@
-# Cucumber/BDD version of the Amazon test suite. Step definitions live in
-# src/steps/amazon.steps.ts and reuse the same Page Object classes (pages/*.ts)
-# as the Playwright specs in tests/amazon/ — same POM, two different runners.
+# Step definitions: src/steps/amazon.steps.ts
 Feature: Amazon product search
 
   Scenario: Search and count iPhone 17 Pro Max results

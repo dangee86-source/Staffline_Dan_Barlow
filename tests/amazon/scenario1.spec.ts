@@ -8,15 +8,9 @@ import { URLS } from '../../framework/constants/urls';
 // Test data
 const product: IProduct = { name: 'iPhone 17 Pro Max' };
 
-// Run sequentially, not in parallel.
-// Reason: Amazon throttles/blocks bursts of concurrent requests from the same IP,
-// which causes false failures (CAPTCHAs, blocked pages) rather than genuine bugs.
+// Tests run sequentially and share one browser page for the whole file.
 test.describe.configure({ mode: 'serial' });
 
-// All 5 tests share ONE search (and one browser page) for the whole file instead
-// of each test re-running searchFor() independently. Same reasoning as
-// scenario2.spec.ts: fewer redundant live navigations against a heavy third-party
-// site means a faster, less resource-intensive, less flaky run.
 let page: Page;
 let resultsPage: AmazonSearchResultsPage;
 
