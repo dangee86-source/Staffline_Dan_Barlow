@@ -1,6 +1,9 @@
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
+// Page object for the Amazon basket/cart page. All verification methods here scope
+// their checks to `iPhoneBasketItem()` specifically, so assertions target the phone
+// row and aren't accidentally satisfied by the separate protection-plan line item.
 export class AmazonBasketPage extends BasePage {
   constructor(page: Page) {
     super(page);

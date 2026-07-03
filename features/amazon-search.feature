@@ -1,3 +1,8 @@
+# Gherkin spec for a planned Cucumber/BDD version of the Amazon test suite.
+# The equivalent coverage is implemented today with plain Playwright specs in
+# tests/amazon/scenario1.spec.ts (this scenario) and scenario2.spec.ts (basket flow).
+# NOTE: step definitions for these steps are not yet implemented, so
+# `npm run test:bdd` will not run successfully against this file yet.
 Feature: Amazon product search
 
   Scenario: Search and count iPhone 17 Pro Max results
